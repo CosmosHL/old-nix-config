@@ -47,6 +47,7 @@
     curl
     wget
     git
+    neofetch
   ];
 
   environment.variables.EDITOR = "nvim";

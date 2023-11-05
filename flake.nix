@@ -6,21 +6,24 @@
     home-manager,
     ...
   } @ inputs: let
-    username = "ozoku";
+    nixosSystem = import ./lib/nixosSystem.nix;
+
+    nixlearn-modules = {
+      nixos-modules = [
+        ./hosts/nixlearn
+      ];
+      home-module = import ./home/nixlearn.nix;
+    };
   in {
-    nixosConfigurations = {
-      nixlearn = nixpkgs.lib.nixosSystem {
+    nixosConfigurations = let
+      base-args = {
+        inherit home-manager;
+        nixpkgs = nixpkgs;
         system = "x86_64-linux";
-        modules = [
-          ./hosts/nixlearn
-          home-manager.nixosModules.home-manager
-          {
-            home-manager.useGlobalPkgs = true;
-            home-manager.useUserPackages = true;
-            home-manager.users.ozoku = import ./home/nixlearn.nix;
-          }
-        ];
+        specialArgs = inputs;
       };
+    in {
+      nixlearn = nixosSystem (nixlearn-modules // base-args);
     };
   };
 

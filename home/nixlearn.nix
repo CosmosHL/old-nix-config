@@ -9,6 +9,7 @@
     # Käyttäjäkohtaiset paketit
     packages = with pkgs; [
       neofetch
+      cowsay
     ];
 
     stateVersion = "23.05";
